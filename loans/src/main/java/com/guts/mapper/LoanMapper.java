@@ -2,7 +2,6 @@ package com.guts.mapper;
 
 import com.guts.dto.LoanDTO;
 import com.guts.modal.Loan;
-import com.guts.service.ILoanService;
 
 public class LoanMapper {
 

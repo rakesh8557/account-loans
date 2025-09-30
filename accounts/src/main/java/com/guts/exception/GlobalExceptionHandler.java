@@ -49,7 +49,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         errorMessageDTO.setPath(webRequest.getDescription(false));
         errorMessageDTO.setStatus(HttpStatus.CONFLICT);
         errorMessageDTO.setMessage(exception.getMessage());
-        errorMessageDTO.setTime(LocalDateTime.now());gle
+        errorMessageDTO.setTime(LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessageDTO);
     }
 
