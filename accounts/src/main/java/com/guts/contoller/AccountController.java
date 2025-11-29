@@ -44,6 +44,13 @@ public class AccountController {
     }
 
     @GetMapping("getAccountDetails")
+    @Operation(
+            summary = "Fetch Account Details",
+            description = "This API is used to fetch an account in GUTS Bank"
+    )
+    @ApiResponse(
+            responseCode = "200"
+    )
     public ResponseEntity<CustomerDTO> fetchAccountDetails(@RequestParam
                                                            @Pattern(regexp = "^\\d{10}$", message = "Mobile number should be 10 digits")
                                                            String mobileNumber) {
@@ -51,6 +58,13 @@ public class AccountController {
     }
 
     @PutMapping("updateAccountDetails")
+    @Operation(
+            summary = "Update Account Details",
+            description = "This API is used to update an account in GUTS Bank"
+    )
+    @ApiResponse(
+            responseCode = "200"
+    )
     public ResponseEntity<ResponseDTO> updateAccount(@Valid @RequestBody CustomerDTO customerDTO) {
         boolean isUpdated = accountService.updateAccount(customerDTO);
         if(isUpdated) {
@@ -65,6 +79,14 @@ public class AccountController {
     }
 
     @DeleteMapping("deleteAccount")
+    @Operation(
+            summary = "Delete Account",
+            description = "This API is used to delete an account in GUTS Bank"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Request processed Successfully"
+    )
     public ResponseEntity<ResponseDTO> deleteAccount(@RequestParam
                                                      @Pattern(regexp = "^\\d{10}$", message = "Mobile number should be 10 digits")
                                                      String mobileNumber) {

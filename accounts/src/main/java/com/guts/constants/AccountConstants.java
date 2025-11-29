@@ -1,7 +1,5 @@
 package com.guts.constants;
 
-import com.guts.modal.Accounts;
-
 public class AccountConstants {
 
     private AccountConstants() {

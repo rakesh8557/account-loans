@@ -52,13 +52,20 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public boolean updateCard(CardsDTO cardsDTO) {
-        return false;
+        Cards cards = cardsRepo.findByMobileNumberAndCardNumber(cardsDTO.getMobileNumber(), cardsDTO.getCardNumber())
+                .orElseThrow(() -> new ResourceNotFoundException("Card", "Mobile number and Card Number", String.format("%s, %s", cardsDTO.getMobileNumber(), cardsDTO.getCardNumber())));
+        System.out.println(cards);
+        cards.setTotalLimit(cardsDTO.getTotalLimit());
+        cards.setAmountUsed(cardsDTO.getAmountUsed());
+        cards.setAvailableLimit(cardsDTO.getAvailableLimit());
+        cardsRepo.save(cards);
+        return true;
     }
 
     @Override
     public boolean deleteCard(String mobileNumber, String cardNumber) {
         Cards cards = cardsRepo.findByMobileNumberAndCardNumber(mobileNumber, cardNumber)
-                .orElseThrow(() -> new ResourceNotFoundException("Card", "Mobile Number", mobileNumber));
+                .orElseThrow(() -> new ResourceNotFoundException("Card", "Mobile Number and Card Number", String.format("%s, %s", mobileNumber, cardNumber)));
         cardsRepo.deleteById(cards.getCardId());
         return true;
     }

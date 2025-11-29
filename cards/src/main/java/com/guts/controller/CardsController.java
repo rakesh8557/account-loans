@@ -3,8 +3,8 @@ package com.guts.controller;
 import com.guts.constants.CardsConstants;
 import com.guts.dto.CardsDTO;
 import com.guts.dto.ResponseDTO;
-import com.guts.entity.Cards;
 import com.guts.service.CardService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +35,20 @@ public class CardsController {
     public ResponseEntity<ResponseDTO> deleteCard(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})", message = "Invalid mobile number") String mobileNumber, @RequestParam String cardNumber) {
         boolean isDeleted = cardService.deleteCard(mobileNumber, cardNumber);
         if(isDeleted) {
+            return ResponseEntity
+                    .status(200)
+                    .body(new ResponseDTO(CardsConstants.STATUS_200, CardsConstants.MESSAGE_200));
+        } else {
+            return ResponseEntity
+                    .status(417)
+                    .body(new ResponseDTO(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_DELETE));
+        }
+    }
+
+    @PutMapping("update")
+    public ResponseEntity<ResponseDTO> updateCard(@Valid @RequestBody CardsDTO cardsDTO) {
+        boolean isUpdated = cardService.updateCard(cardsDTO);
+        if(isUpdated) {
             return ResponseEntity
                     .status(200)
                     .body(new ResponseDTO(CardsConstants.STATUS_200, CardsConstants.MESSAGE_200));
