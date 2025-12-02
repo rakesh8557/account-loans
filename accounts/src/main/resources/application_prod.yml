@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+build:
+  version: "3.0"
+
+accounts:
+  message: "Welcome to GutsBank accounts related Prod APIs"
+  email_name:
+    name: "Smith - Product Owner"
+    email: "smith@johnson.com"
+  mobile_number:
+    - (777)996-1234
+    - (777)348-9876

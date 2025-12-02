@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+accounts:
+  message: "Welcome to GutsBank accounts related QA APIs"
+  email_name:
+    name: "John - QA lead"
+    email: "John@doe.com"
+  mobile_number:
+    - (666)446-1234
+    - (666)629-9876

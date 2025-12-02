@@ -1,15 +1,22 @@
 package com.guts.contoller;
 
 import com.guts.constants.AccountConstants;
+import com.guts.dto.AccountsContactInfoDto;
 import com.guts.dto.CustomerDTO;
+import com.guts.dto.ErrorMessageDTO;
 import com.guts.dto.ResponseDTO;
 import com.guts.service.IAccountService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,11 +28,20 @@ import org.springframework.web.bind.annotation.*;
     )
 @RestController
 @RequestMapping(value = "/api/v1/accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 @Validated
 public class AccountController {
 
+    @Autowired
     private IAccountService accountService;
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Autowired
+    private Environment environment;
+
+    @Autowired
+    private AccountsContactInfoDto accountsContactInfoDto;
 
     @PostMapping("create")
     @Operation(
@@ -100,6 +116,52 @@ public class AccountController {
                     .status(417)
                     .body(new ResponseDTO(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @GetMapping("getBuildInfo")
+    @Operation(
+            summary = "Get Build Info",
+            description = "Get Build Information that is deployed in account microservice"
+    )
+    @ApiResponse(
+            responseCode = "200"
+    )
+    public ResponseEntity<String> getBuildInfo() {
+        return ResponseEntity.ok().body(buildVersion);
+    }
+
+    @GetMapping("java-version")
+    @Operation(
+            summary = "Get Java Version",
+            description = "Get Java Information that is deployed in account microservice"
+    )
+    @ApiResponse(
+            responseCode = "200"
+    )
+    public ResponseEntity<String> getJavaVersion() {
+        return ResponseEntity.ok().body(environment.getProperty("MAVEN_HOME"));
+    }
+
+    @GetMapping("contact-info")
+    @Operation(
+            summary = "Get Contact Info",
+            description = "Get Contact info of the developer"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Http Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "417",
+                    description = "Http Status Something Went Wrong",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorMessageDTO.class)
+                    )
+            )
+    })
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
+        return ResponseEntity.ok().body(accountsContactInfoDto);
     }
 
 }

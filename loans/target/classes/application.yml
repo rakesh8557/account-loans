@@ -15,3 +15,20 @@ spring:
     hibernate:
       ddl-auto: update
 #    show-sql: true
+  config:
+    import:
+      - "application_qa.yml"
+      - "application_prod.yml"
+
+build:
+  version: "2.0"
+
+loans:
+  message: "Welcome to Guts bank Cards Local APIs"
+  email_name:
+    name: "Guts - Developer"
+    email: "gutsblackswordsman96@gmail.com"
+  mobile_number:
+    - (111)345-3246
+    - (111)345-4543
+

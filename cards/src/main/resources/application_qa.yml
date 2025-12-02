@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+cards:
+  message: "Welcome to Guts Bank Cards related QA APIs"
+  email_name:
+    name: "John - QA Lead"
+    email: "john@doe.com"
+  mobile_number:
+    - (888)345-4534
+    - (888)321-6753

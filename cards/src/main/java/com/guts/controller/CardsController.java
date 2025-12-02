@@ -1,12 +1,15 @@
 package com.guts.controller;
 
 import com.guts.constants.CardsConstants;
+import com.guts.dto.CardsContactInfoDTO;
 import com.guts.dto.CardsDTO;
 import com.guts.dto.ResponseDTO;
 import com.guts.service.CardService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +22,15 @@ public class CardsController {
 
     @Autowired
     private CardService cardService;
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Autowired
+    private Environment environment;
+
+    @Autowired
+    private CardsContactInfoDTO cardsContactInfoDTO;
 
     @PostMapping("create")
     public ResponseEntity<ResponseDTO> createCard(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})", message = "Invalid mobile number") String mobileNumber) {
@@ -57,5 +69,20 @@ public class CardsController {
                     .status(417)
                     .body(new ResponseDTO(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @GetMapping("getBuildInfo")
+    public ResponseEntity<String> getBuildVersion() {
+        return ResponseEntity.ok().body(buildVersion);
+    }
+
+    @GetMapping("java-version")
+    public ResponseEntity<String> getJavaVersion() {
+        return ResponseEntity.ok().body(environment.getProperty("JAVA_HOME"));
+    }
+
+    @GetMapping("contact-info")
+    public ResponseEntity<CardsContactInfoDTO> getContactInfo() {
+        return ResponseEntity.ok().body(cardsContactInfoDTO);
     }
 }

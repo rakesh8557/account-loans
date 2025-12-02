@@ -68,7 +68,7 @@
         <version>3.5.1</version>
         <configuration>
           <to>
-            <image>rakeshrout/${project.artifactId}:v1</image>
+            <image>rakeshrout/${project.artifactId}:v3</image>
           </to>
         </configuration>
       </plugin>

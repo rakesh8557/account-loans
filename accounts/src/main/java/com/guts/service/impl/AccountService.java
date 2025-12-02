@@ -15,7 +15,6 @@ import com.guts.service.IAccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -27,11 +26,11 @@ public class AccountService implements IAccountService {
 
     @Override
     public void createAccount(CustomerDTO customerDTO) {
-        Customer customer = CustomerMapper.mapToCustomer(customerDTO, new Customer());
         Optional<Customer> optionalCustomer =  customerRepo.findByMobileNumber(customerDTO.getMobileNumber());
         if(optionalCustomer.isPresent()) {
             throw new CustomerAlreadyExistException("Customer already exists with mobile number " + customerDTO.getMobileNumber());
         }
+        Customer customer = CustomerMapper.mapToCustomer(customerDTO, new Customer());
         Customer savedCustomer = customerRepo.save(customer);
         accountsRepo.save(createAccount(savedCustomer));
     }

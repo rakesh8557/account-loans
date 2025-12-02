@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+build:
+  version: "3.0"
+
+cards:
+  message: "Welcome to Guts Bank Cards related Prod APIs"
+  email_name:
+    name: "Smith - Product Owner"
+    email: "smith@gmail.com"
+  mobile_number:
+    - (777)345-9876
+    - (777)321-4545
